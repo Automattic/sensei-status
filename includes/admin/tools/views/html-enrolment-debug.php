@@ -43,7 +43,7 @@ $allowed_debug_html = [
 		</td>
 	</tr>
 	<tr>
-		<th scope="row"><?php esc_html_e( 'Is Enrolled?', 'sensei-lms-status' ); ?></th>
+		<th scope="row"><?php esc_html_e( 'Is enrolled?', 'sensei-lms-status' ); ?></th>
 		<td>
 			<?php
 			if ( $results['is_enrolled'] ) {
@@ -59,7 +59,7 @@ $allowed_debug_html = [
 		</td>
 	</tr>
 	<tr>
-		<th scope="row"><?php esc_html_e( 'Was Cached Enrollment Up-to-date?', 'sensei-lms-status' ); ?></th>
+		<th scope="row"><?php esc_html_e( 'Was cached enrollment up-to-date?', 'sensei-lms-status' ); ?></th>
 		<td>
 			<?php
 			if ( ! $results['results_stale'] ) {
@@ -75,7 +75,7 @@ $allowed_debug_html = [
 		</td>
 	</tr>
 	<tr>
-		<th scope="row"><?php esc_html_e( 'Is Cached Enrollment Accurate?', 'sensei-lms-status' ); ?></th>
+		<th scope="row"><?php esc_html_e( 'Is cached enrollment accurate?', 'sensei-lms-status' ); ?></th>
 		<td>
 			<?php
 			if ( $results['results_match'] ) {
@@ -120,6 +120,10 @@ $allowed_debug_html = [
 						} elseif ( $provider['is_enrolled'] ) {
 							echo '<div class="tag">';
 							echo esc_html__( 'Enrolls Learner', 'sensei-lms-status' );
+							echo '</div>';
+						} else {
+							echo '<div class="tag">';
+							echo esc_html__( 'Does Not Enroll Learner', 'sensei-lms-status' );
 							echo '</div>';
 						}
 						?>
