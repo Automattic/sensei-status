@@ -17,6 +17,15 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Sensei_Tool_Recalculate_Enrolment implements Sensei_Tool_Interface {
 	/**
+	 * Get the ID of the tool.
+	 *
+	 * @return string
+	 */
+	public function get_id() {
+		return 'recalculate-enrolment';
+	}
+
+	/**
 	 * Get the name of the tool.
 	 *
 	 * @return string
@@ -44,14 +53,12 @@ class Sensei_Tool_Recalculate_Enrolment implements Sensei_Tool_Interface {
 	}
 
 	/**
-	 * Run the tool. If it returns `true`, return to tool listing.
-	 *
-	 * @return bool|void
+	 * Run the tool.
 	 */
 	public function run() {
 		$enrolment_manager = Sensei_Course_Enrolment_Manager::instance();
 		$enrolment_manager->reset_site_salt();
 
-		return true;
+		Sensei_Tools::instance()->add_user_message( __( 'Course enrollment cache has been invalidated and is being recalculated.', 'sensei-lms-status' ) );
 	}
 }

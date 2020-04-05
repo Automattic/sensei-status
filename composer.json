@@ -1,14 +1,9 @@
 {
-    "name": "tlf/plugin",
-    "description": "Allows generation and comparison of two different enrollment snapshots.",
+    "name": "sensei/status",
+    "description": "Feature plugin to provide status and tools for Sensei LMS.",
     "type": "project",
     "license": "GPL-3.0",
     "require": {},
-    "autoload": {
-        "psr-4": {
-            "Sensei\\EnrollmentComparisonTool\\": "src/"
-        }
-    },
     "require-dev": {
         "dealerdirect/phpcodesniffer-composer-installer": "^0.5.0",
         "phpcompatibility/phpcompatibility-wp": "^2.1",

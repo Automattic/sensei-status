@@ -17,6 +17,13 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 interface Sensei_Tool_Interface {
 	/**
+	 * Get the ID of the tool.
+	 *
+	 * @return string
+	 */
+	public function get_id();
+
+	/**
 	 * Get the name of the tool.
 	 *
 	 * @return string
@@ -38,9 +45,7 @@ interface Sensei_Tool_Interface {
 	public function is_single_action();
 
 	/**
-	 * Run the tool. If it returns `true`, return to tool listing.
-	 *
-	 * @return bool|void
+	 * Run the tool.
 	 */
 	public function run();
 }

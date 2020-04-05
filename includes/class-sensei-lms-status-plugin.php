@@ -47,6 +47,7 @@ class Sensei_LMS_Status_Plugin {
 	 */
 	public function init() {
 		add_action( 'init', [ $this, 'load_plugin' ] );
+		add_action( 'admin_enqueue_scripts', [ $this, 'register_assets' ] );
 	}
 
 	/**
@@ -71,5 +72,15 @@ class Sensei_LMS_Status_Plugin {
 		include_once __DIR__  . '/admin/class-sensei-tools.php';
 		include_once __DIR__  . '/admin/tools/class-sensei-tool-interface.php';
 		include_once __DIR__  . '/admin/tools/class-sensei-tool-recalculate-enrolment.php';
+		include_once __DIR__  . '/admin/tools/class-sensei-tool-enrolment-debug.php';
+	}
+
+	/**
+	 * Register assets for use within plugin.
+	 */
+	public function register_assets() {
+		$plugin_url = trailingslashit( plugins_url( '', SENSEI_STATUS_PLUGIN_FILE ) );
+
+		wp_register_style( 'sensei-lms-tools', $plugin_url . 'assets/css/admin/tools.css', '', SENSEI_STATUS_VERSION, 'screen' );
 	}
 }

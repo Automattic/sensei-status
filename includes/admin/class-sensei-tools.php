@@ -16,6 +16,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 1.0.0
  */
 class Sensei_Tools {
+	const MESSAGES_TRANSIENT_PREFIX  = 'sensei-lms-tools-messages-';
+	const MESSAGES_TRANSIENT_TIMEOUT = HOUR_IN_SECONDS;
+
 	/**
 	 * Instance of class.
 	 *
@@ -69,7 +72,113 @@ class Sensei_Tools {
 	 * Output the tools page.
 	 */
 	public function output() {
-		include_once __DIR__ . '/views/html-admin-page-tools.php';
+		wp_enqueue_style( 'sensei-lms-tools' );
+
+		$tools = $this->get_tools();
+
+		if ( ! empty( $_GET['tool'] ) ) {
+			$tool_id  = sanitize_text_field( wp_unslash( $_GET['tool'] ) );
+			if ( ! isset( $tools[ $tool_id ] ) ) {
+				wp_die( __( 'Invalid tool', 'sensei-lms-status' ) );
+			}
+
+			$tool = $tools[ $tool_id ];
+
+			if ( $tool->is_single_action() ) {
+				if ( empty( $_GET['_wpnonce'] ) || ! wp_verify_nonce( wp_unslash( $_GET['_wpnonce'] ), 'sensei-tool-' . $tool_id ) ) {
+					wp_die( __( 'Invalid nonce', 'sensei-lms-status' ) );
+				}
+
+				$tool->run();
+				wp_safe_redirect( admin_url( 'admin.php?page=sensei-tools' ) );
+
+				exit;
+			}
+
+			ob_start();
+			$tool->run();
+			$output = ob_get_clean();
+
+			$messages = $this->get_user_messages( true );
+
+			include __DIR__ . '/views/html-admin-page-tools-header.php';
+			echo $output;
+			include __DIR__ . '/views/html-admin-page-tools-footer.php';
+		} else {
+			$messages = $this->get_user_messages( true );
+
+			include __DIR__ . '/views/html-admin-page-tools.php';
+		}
+	}
+
+	/**
+	 * Get the tool URL.
+	 *
+	 * @param Sensei_Tool_Interface $tool Tool object.
+	 */
+	public function get_tool_url( Sensei_Tool_Interface $tool ) {
+		$id  = $tool->get_id();
+		$url = sprintf( admin_url( 'admin.php?page=sensei-tools&tool=%s' ), $id );
+		if ( $tool->is_single_action() ) {
+			$url = wp_nonce_url( $url, 'sensei-tool-' . $id );
+		}
+
+		return $url;
+	}
+
+	/**
+	 * Get the user messages.
+	 *
+	 * @param bool $flush Flush the user messages at the same time.
+	 *
+	 * @return array
+	 */
+	private function get_user_messages( $flush = false ) {
+		$messages_key = $this->get_user_message_transient_name();
+		$messages     = get_transient( $messages_key );
+
+		if ( empty( $messages ) ) {
+			$messages = [];
+		} else {
+			$messages = json_decode( $messages, true );
+		}
+
+		if ( $flush ) {
+			delete_transient( $messages_key );
+		}
+
+		return $messages;
+	}
+
+	/**
+	 * Add a user message to display on the tools page.
+	 *
+	 * @param string $message  User message to display.
+	 * @param bool   $is_error True this message is an error.
+	 *
+	 * @return bool
+	 */
+	public function add_user_message( $message, $is_error = false ) {
+		$messages_key = $this->get_user_message_transient_name();
+		$messages     = $this->get_user_messages( false );
+
+		$messages[] = [
+			'message'  => $message,
+			'is_error' => $is_error,
+		];
+
+		set_transient( $messages_key, wp_json_encode( $messages ), self::MESSAGES_TRANSIENT_TIMEOUT );
+
+		return true;
+	}
+
+	/**
+	 * Get the name of the transient that stores user messages.
+	 *
+	 * @return string
+	 */
+	private function get_user_message_transient_name() {
+		return self::MESSAGES_TRANSIENT_PREFIX . get_current_user_id();
 	}
 
 	/**
@@ -79,8 +188,9 @@ class Sensei_Tools {
 	 */
 	public function get_tools() {
 		if ( ! $this->tools ) {
-			$tools                          = [];
-			$tools['recalculate-enrolment'] = new Sensei_Tool_Recalculate_Enrolment();
+			$tools   = [];
+			$tools[] = new Sensei_Tool_Recalculate_Enrolment();
+			$tools[] = new Sensei_Tool_Enrolment_Debug();
 
 			/**
 			 * Array of the tools available to Sensei LMS.
@@ -89,7 +199,12 @@ class Sensei_Tools {
 			 *
 			 * @param Sensei_Tool_Interface[] $tools Tool objects for Sensei LMS.
 			 */
-			$this->tools = apply_filters( 'sensei_lms_status_tools', $tools );
+			$tools = apply_filters( 'sensei_lms_status_tools', $tools );
+
+			$this->tools = [];
+			foreach ( $tools as $tool ) {
+				$this->tools[ $tool->get_id() ] = $tool;
+			}
 		}
 
 		return $this->tools;
