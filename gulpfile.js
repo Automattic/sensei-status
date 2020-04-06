@@ -41,11 +41,8 @@ var paths = {
 	packageContents: [
 		'assets/**/*',
 		'changelog.txt',
-		'CONTRIBUTING.md',
-		'LICENSE',
 		'includes/**/*',
 		'lang/**/*',
-		'readme.txt',
 		'sensei-lms-status.php',
 	],
 	packageDir: 'build/sensei-lms-status',
