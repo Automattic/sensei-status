@@ -58,7 +58,7 @@ class Sensei_Tool_Enrolment_Debug implements Sensei_Tool_Interface {
 	 * Run the tool.
 	 */
 	public function run() {
-		if ( ! empty( $_POST ) ) {
+		if ( ! empty( $_REQUEST['course_id'] ) || ! empty( $_REQUEST['user_id'] ) ) {
 			$results = $this->process_input();
 
 			// If there was an error, go back to the tool page.
@@ -104,27 +104,27 @@ class Sensei_Tool_Enrolment_Debug implements Sensei_Tool_Interface {
 	 * @return false|array
 	 */
 	private function process_input() {
-		if ( empty( $_POST['_wpnonce'] ) || ! wp_verify_nonce( wp_unslash( $_POST['_wpnonce'] ), self::NONCE_ACTION ) ) {
+		if ( empty( $_REQUEST['_wpnonce'] ) || ! wp_verify_nonce( wp_unslash( $_REQUEST['_wpnonce'] ), self::NONCE_ACTION ) ) {
 			Sensei_Tools::instance()->add_user_message( __( 'Please try again. There was a problem validating your request.', 'sensei-lms-status' ), true );
 
 			return false;
 		}
 
-		if ( empty( $_POST['user_id'] ) ) {
+		if ( empty( $_REQUEST['user_id'] ) ) {
 			Sensei_Tools::instance()->add_user_message( __( 'Please select a user.', 'sensei-lms-status' ), true );
 
 			return false;
 		}
 
-		if ( empty( $_POST['course_id'] ) ) {
+		if ( empty( $_REQUEST['course_id'] ) ) {
 			Sensei_Tools::instance()->add_user_message( __( 'Please select a course ID.', 'sensei-lms-status' ), true );
 
 			return false;
 		}
 
 		$enrolment_manager = Sensei_Course_Enrolment_Manager::instance();
-		$user_id   = intval( $_POST['user_id'] );
-		$course_id = intval( $_POST['course_id'] );
+		$user_id   = intval( $_REQUEST['user_id'] );
+		$course_id = intval( $_REQUEST['course_id'] );
 
 		$user = get_user_by( 'ID', $user_id );
 		if ( ! $user ) {
@@ -196,5 +196,18 @@ class Sensei_Tool_Enrolment_Debug implements Sensei_Tool_Interface {
 		}
 
 		return $results;
+	}
+
+	public static function get_debug_url( $user_id, $course_id ) {
+		return wp_nonce_url(
+			add_query_arg(
+				[
+					'course_id'        => $course_id,
+					'user_id'          => $user_id,
+				],
+				Sensei_Tools::instance()->get_tool_url( new self() )
+			),
+			self::NONCE_ACTION
+		);
 	}
 }

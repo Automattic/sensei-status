@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<th scope="row"><label for="user_id"><?php esc_html_e( 'User', 'sensei-lms-status' ); ?> <span class="description">(<?php esc_html_e( 'Required', 'sensei-lms-status' ); ?>)</span></label></th>
 		<td>
 		<?php
-		$user_value = isset( $_POST['user_id'] ) ? intval( $_POST['user_id'] ) : null;
+		$user_value = isset( $_REQUEST['user_id'] ) ? intval( $_REQUEST['user_id'] ) : null;
 		if ( $users) {
 			?>
 			<select name="user_id" id="user_id" class="input">
@@ -49,7 +49,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<th scope="row"><label for="course_id"><?php esc_html_e( 'Course', 'sensei-lms-status' ); ?> <span class="description">(<?php esc_html_e( 'Required', 'sensei-lms-status' ); ?>)</span></label></th>
 			<td>
 			<?php
-			$course_value = isset( $_POST['course_id'] ) ? intval( $_POST['course_id'] ) : null;
+			$course_value = isset( $_REQUEST['course_id'] ) ? intval( $_REQUEST['course_id'] ) : null;
 			if ( $users) {
 				?>
 				<select name="course_id" id="course_id" class="input">

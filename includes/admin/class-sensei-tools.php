@@ -58,6 +58,8 @@ class Sensei_Tools {
 	 */
 	public function init() {
 		add_action( 'admin_menu', [ $this, 'add_menu_pages' ], 90 );
+
+		add_filter( 'sensei_learners_main_column_data', [ $this, 'add_debug_action' ], 10, 3 );
 	}
 
 	/**
@@ -210,5 +212,37 @@ class Sensei_Tools {
 		return $this->tools;
 	}
 
+	/**
+	 * Add debug button to row.
+	 *
+	 * @param array $row_data  Row data for learner management.
+	 * @param array $item      Activity information for row.
+	 * @param int   $course_id Course post ID.
+	 *
+	 * @return array
+	 */
+	public function add_debug_action( $row_data, $item, $course_id ) {
+		/**
+		 * Show the enrolment debug button on learner management.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param bool $show_button Whether to show the button.
+		 * @param int  $user_id     User ID.
+		 * @param int  $course_id   Course ID.
+		 */
+		$show_button = apply_filters( 'sensei_lms_status_show_enrolment_debug_button', false, $item->user_id, $course_id );
+		if (
+			! $show_button
+			|| 'course' !== get_post_type( $course_id )
+		) {
+			return $row_data;
+		}
+
+		$button_url = Sensei_Tool_Enrolment_Debug::get_debug_url( $item->user_id, $course_id );
+		$row_data['actions'] .= ' <a class="button" href="' . esc_url( $button_url ) . '">' . esc_html__( 'Debug Enrollment', 'sensei-lms-status' ) . '</a>';
+
+		return $row_data;
+	}
 
 }
