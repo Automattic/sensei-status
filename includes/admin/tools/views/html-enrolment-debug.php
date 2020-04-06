@@ -43,7 +43,7 @@ $allowed_debug_html = [
 		</td>
 	</tr>
 	<tr>
-		<th scope="row"><?php esc_html_e( 'Is enrolled?', 'sensei-lms-status' ); ?></th>
+		<th scope="row"><?php esc_html_e( 'Enrollment status', 'sensei-lms-status' ); ?></th>
 		<td>
 			<?php
 			if ( $results['is_enrolled'] ) {
@@ -59,7 +59,7 @@ $allowed_debug_html = [
 		</td>
 	</tr>
 	<tr>
-		<th scope="row"><?php esc_html_e( 'Cached Enrollment Status', 'sensei-lms-status' ); ?></th>
+		<th scope="row"><?php esc_html_e( 'Cached enrollment status', 'sensei-lms-status' ); ?></th>
 		<td>
 			<?php
 			if ( $results['results_match'] ) {
