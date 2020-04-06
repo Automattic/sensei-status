@@ -29,10 +29,10 @@ include __DIR__ . '/html-admin-page-tools-header.php';
 				<td>
 					<p>
 						<?php
-						$label = __( 'Visit', 'sensei-lms-status' );
+						$label = __( 'Visit Tool', 'sensei-lms-status' );
 						$url   = Sensei_Tools::instance()->get_tool_url( $tool );
 						if ( $tool->is_single_action() ) {
-							$label = __( 'Run', 'sensei-lms-status' );
+							$label = __( 'Run Action', 'sensei-lms-status' );
 						}
 						?>
 						<a href="<?php echo esc_url( $url ); ?>" class="button button-large"><?php echo esc_html( $label ); ?></a>
