@@ -129,8 +129,8 @@ class Sensei_Tool_Enrolment_Debug implements Sensei_Tool_Interface {
 			return false;
 		}
 
-		$user_id           = intval( $_GET['user_id'] );
-		$course_id         = intval( $_GET['course_id'] );
+		$user_id   = intval( $_GET['user_id'] );
+		$course_id = intval( $_GET['course_id'] );
 
 		$user = get_user_by( 'ID', $user_id );
 		if ( ! $user ) {
@@ -165,8 +165,8 @@ class Sensei_Tool_Enrolment_Debug implements Sensei_Tool_Interface {
 
 		$results_stale = false;
 		if ( ! $provider_results || $provider_results->get_version_hash() !== $course_enrolment->get_current_enrolment_result_version() ) {
-			$results_stale = true;
-			$provider_results       = $course_enrolment->get_enrolment_check_results( $user->ID );
+			$results_stale    = true;
+			$provider_results = $course_enrolment->get_enrolment_check_results( $user->ID );
 		}
 
 		$provider_results = $provider_results->get_provider_results();

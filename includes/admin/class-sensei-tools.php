@@ -205,7 +205,7 @@ class Sensei_Tools {
 			 *
 			 * @param Sensei_Tool_Interface[] $tools Tool objects for Sensei LMS.
 			 */
-			$tools = apply_filters( 'sensei_lms_status_tools', $tools );
+			$tools = apply_filters( 'sensei_tools', $tools );
 
 			$this->tools = [];
 			foreach ( $tools as $tool ) {
@@ -235,7 +235,7 @@ class Sensei_Tools {
 		 * @param int  $user_id     User ID.
 		 * @param int  $course_id   Course ID.
 		 */
-		$show_button = apply_filters( 'sensei_lms_status_show_enrolment_debug_button', false, $item->user_id, $course_id );
+		$show_button = apply_filters( 'sensei_show_enrolment_debug_button', false, $item->user_id, $course_id );
 		if (
 			! $course_id
 			|| ! current_user_can( 'manage_sensei' )
