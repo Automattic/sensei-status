@@ -75,6 +75,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</tr>
 	</table>
 	<p class="submit">
-		<input type="submit" class="button button-primary" name="submit" value="<?php esc_attr_e( 'View Enrollment Inforation', 'sensei-lms-status' ); ?>" />
+		<input type="submit" class="button button-primary" name="submit" value="<?php esc_attr_e( 'View Enrollment Information', 'sensei-lms-status' ); ?>" />
 	</p>
 </form>
