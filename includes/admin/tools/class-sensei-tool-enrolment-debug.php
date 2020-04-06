@@ -75,6 +75,7 @@ class Sensei_Tool_Enrolment_Debug implements Sensei_Tool_Interface {
 		$user_query_args = [
 			'number'  => 100,
 			'orderby' => 'display_name',
+			'order'   => 'ASC',
 		];
 		$user_search     = new WP_User_Query( $user_query_args );
 
@@ -87,6 +88,7 @@ class Sensei_Tool_Enrolment_Debug implements Sensei_Tool_Interface {
 		$course_query_args = [
 			'posts_per_page' => 100,
 			'orderby'        => 'title',
+			'order'          => 'ASC',
 			'post_type'      => 'course',
 			'post_status'    => 'any',
 		];
