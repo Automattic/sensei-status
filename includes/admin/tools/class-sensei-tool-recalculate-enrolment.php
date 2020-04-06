@@ -30,7 +30,7 @@ class Sensei_Tool_Recalculate_Enrolment implements Sensei_Tool_Interface {
 	 *
 	 * @return string
 	 */
-	public function get_name(){
+	public function get_name() {
 		return __( 'Recalculate Enrolments', 'sensei-lms-status' );
 	}
 

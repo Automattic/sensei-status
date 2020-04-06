@@ -16,8 +16,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 1.0.0
  */
 class Sensei_LMS_Status_Dependency_Checker {
-	const MINIMUM_PHP_VERSION         = '5.6';
-	const MINIMUM_SENSEI_VERSION      = '3.0.0-dev';
+	const MINIMUM_PHP_VERSION    = '5.6';
+	const MINIMUM_SENSEI_VERSION = '3.0.0-dev';
 
 	/**
 	 * Checks if system dependencies are met.

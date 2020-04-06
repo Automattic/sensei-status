@@ -32,7 +32,7 @@ class Sensei_Tool_Enrolment_Debug implements Sensei_Tool_Interface {
 	 *
 	 * @return string
 	 */
-	public function get_name(){
+	public function get_name() {
 		return __( 'Debug Course Enrollment', 'sensei-lms-status' );
 	}
 
@@ -58,6 +58,7 @@ class Sensei_Tool_Enrolment_Debug implements Sensei_Tool_Interface {
 	 * Run the tool.
 	 */
 	public function run() {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce checked in `process_input`.
 		if ( ! empty( $_REQUEST['course_id'] ) || ! empty( $_REQUEST['user_id'] ) ) {
 			$results = $this->process_input();
 
@@ -77,6 +78,7 @@ class Sensei_Tool_Enrolment_Debug implements Sensei_Tool_Interface {
 		];
 		$user_search     = new WP_User_Query( $user_query_args );
 
+		// phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable -- Variable used in view.
 		$users = false;
 		if ( $user_search->get_total() < 100 ) {
 			$users = $user_search->get_results();
@@ -90,6 +92,7 @@ class Sensei_Tool_Enrolment_Debug implements Sensei_Tool_Interface {
 		];
 		$course_search     = new WP_Query( $course_query_args );
 
+		// phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable -- Variable used in view.
 		$courses = false;
 		if ( $course_search->found_posts < 100 ) {
 			$courses = $course_search->get_posts();
@@ -104,6 +107,7 @@ class Sensei_Tool_Enrolment_Debug implements Sensei_Tool_Interface {
 	 * @return false|array
 	 */
 	private function process_input() {
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Don't modify the nonce.
 		if ( empty( $_REQUEST['_wpnonce'] ) || ! wp_verify_nonce( wp_unslash( $_REQUEST['_wpnonce'] ), self::NONCE_ACTION ) ) {
 			Sensei_Tools::instance()->add_user_message( __( 'Please try again. There was a problem validating your request.', 'sensei-lms-status' ), true );
 
@@ -123,8 +127,8 @@ class Sensei_Tool_Enrolment_Debug implements Sensei_Tool_Interface {
 		}
 
 		$enrolment_manager = Sensei_Course_Enrolment_Manager::instance();
-		$user_id   = intval( $_REQUEST['user_id'] );
-		$course_id = intval( $_REQUEST['course_id'] );
+		$user_id           = intval( $_REQUEST['user_id'] );
+		$course_id         = intval( $_REQUEST['course_id'] );
 
 		$user = get_user_by( 'ID', $user_id );
 		if ( ! $user ) {
@@ -152,7 +156,7 @@ class Sensei_Tool_Enrolment_Debug implements Sensei_Tool_Interface {
 
 		$provider_results = $results->get_provider_results();
 
-		$results   = [
+		$results = [
 			'course'        => $course->post_title,
 			'user'          => $user->display_name . ' (' . $user->ID . ')',
 			'is_enrolled'   => $is_enrolled,
@@ -198,12 +202,20 @@ class Sensei_Tool_Enrolment_Debug implements Sensei_Tool_Interface {
 		return $results;
 	}
 
-	public static function get_debug_url( $user_id, $course_id ) {
+	/**
+	 * Get the URL for the enrolment debug tool for a user/course.
+	 *
+	 * @param int $user_id   User ID.
+	 * @param int $course_id Course post ID.
+	 *
+	 * @return string
+	 */
+	public static function get_enrolment_debug_url( $user_id, $course_id ) {
 		return wp_nonce_url(
 			add_query_arg(
 				[
-					'course_id'        => $course_id,
-					'user_id'          => $user_id,
+					'course_id' => $course_id,
+					'user_id'   => $user_id,
 				],
 				Sensei_Tools::instance()->get_tool_url( new self() )
 			),

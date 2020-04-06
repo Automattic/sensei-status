@@ -73,11 +73,11 @@ class Sensei_LMS_Status_Plugin {
 	 * @access private
 	 */
 	private function include_files() {
-		include_once __DIR__  . '/admin/class-sensei-status.php';
-		include_once __DIR__  . '/admin/class-sensei-tools.php';
-		include_once __DIR__  . '/admin/tools/class-sensei-tool-interface.php';
-		include_once __DIR__  . '/admin/tools/class-sensei-tool-recalculate-enrolment.php';
-		include_once __DIR__  . '/admin/tools/class-sensei-tool-enrolment-debug.php';
+		include_once __DIR__ . '/admin/class-sensei-status.php';
+		include_once __DIR__ . '/admin/class-sensei-tools.php';
+		include_once __DIR__ . '/admin/tools/class-sensei-tool-interface.php';
+		include_once __DIR__ . '/admin/tools/class-sensei-tool-recalculate-enrolment.php';
+		include_once __DIR__ . '/admin/tools/class-sensei-tool-enrolment-debug.php';
 	}
 
 	/**

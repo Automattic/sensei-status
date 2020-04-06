@@ -69,10 +69,11 @@ class Sensei_Status {
 			'value' => Sensei()->version,
 		];
 
-		$is_legacy_enrolment_set = get_option( 'sensei_enrolment_legacy' );
+		$is_legacy_enrolment_set       = get_option( 'sensei_enrolment_legacy' );
 		$value_is_legacy_enrolment_set = __( 'No, instance never used Sensei LMS v2 or below.', 'sensei-lms-status' );
 		if ( $is_legacy_enrolment_set ) {
-			$installed_time = date( 'Y-m-d H:i:s', $is_legacy_enrolment_set );
+			$installed_time = gmdate( 'Y-m-d H:i:s', $is_legacy_enrolment_set );
+			// translators: Placeholder is datetime for when the instance was upgraded.
 			$value_is_legacy_enrolment_set = sprintf( __( 'Yes, instance was upgraded from a pre-v3 version at %s UTC', 'sensei-lms-status' ), $installed_time );
 		}
 
@@ -131,7 +132,7 @@ class Sensei_Status {
 		$enrolment_manager = Sensei_Course_Enrolment_Manager::instance();
 		if ( get_option( Sensei_Enrolment_Job_Scheduler::CALCULATION_VERSION_OPTION_NAME ) !== $enrolment_manager->get_enrolment_calculation_version() ) {
 			$result['status'] = 'recommended';
-			$results['label'] = __( 'Learner enrollment has not been calculated', 'sensei-lms-status' );
+			$result['label']  = __( 'Learner enrollment has not been calculated', 'sensei-lms-status' );
 		}
 
 		return $result;

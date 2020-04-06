@@ -79,16 +79,17 @@ class Sensei_Tools {
 		$tools = $this->get_tools();
 
 		if ( ! empty( $_GET['tool'] ) ) {
-			$tool_id  = sanitize_text_field( wp_unslash( $_GET['tool'] ) );
+			$tool_id = sanitize_text_field( wp_unslash( $_GET['tool'] ) );
 			if ( ! isset( $tools[ $tool_id ] ) ) {
-				wp_die( __( 'Invalid tool', 'sensei-lms-status' ) );
+				wp_die( esc_html__( 'Invalid tool', 'sensei-lms-status' ) );
 			}
 
 			$tool = $tools[ $tool_id ];
 
 			if ( $tool->is_single_action() ) {
+				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Don't modify the nonce.
 				if ( empty( $_GET['_wpnonce'] ) || ! wp_verify_nonce( wp_unslash( $_GET['_wpnonce'] ), 'sensei-tool-' . $tool_id ) ) {
-					wp_die( __( 'Invalid nonce', 'sensei-lms-status' ) );
+					wp_die( esc_html__( 'Invalid nonce', 'sensei-lms-status' ) );
 				}
 
 				$tool->run();
@@ -101,12 +102,15 @@ class Sensei_Tools {
 			$tool->run();
 			$output = ob_get_clean();
 
+			// phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable -- Variable used in view.
 			$messages = $this->get_user_messages( true );
 
 			include __DIR__ . '/views/html-admin-page-tools-header.php';
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output should be escaped in tool.
 			echo $output;
 			include __DIR__ . '/views/html-admin-page-tools-footer.php';
 		} else {
+			// phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable -- Variable used in view.
 			$messages = $this->get_user_messages( true );
 
 			include __DIR__ . '/views/html-admin-page-tools.php';
@@ -240,7 +244,7 @@ class Sensei_Tools {
 			return $row_data;
 		}
 
-		$button_url = Sensei_Tool_Enrolment_Debug::get_debug_url( $item->user_id, $course_id );
+		$button_url           = Sensei_Tool_Enrolment_Debug::get_enrolment_debug_url( $item->user_id, $course_id );
 		$row_data['actions'] .= ' <a class="button" href="' . esc_url( $button_url ) . '">' . esc_html__( 'Debug Enrollment', 'sensei-lms-status' ) . '</a>';
 
 		return $row_data;
