@@ -59,32 +59,16 @@ $allowed_debug_html = [
 		</td>
 	</tr>
 	<tr>
-		<th scope="row"><?php esc_html_e( 'Was cached enrollment up-to-date?', 'sensei-lms-status' ); ?></th>
-		<td>
-			<?php
-			if ( ! $results['results_stale'] ) {
-				echo '<div class="info info-positive">';
-				echo esc_html__( 'Yes', 'sensei-lms-status' );
-				echo '</div>';
-			} else {
-				echo '<div class="info info-negative">';
-				echo esc_html__( 'No', 'sensei-lms-status' );
-				echo '</div>';
-			}
-			?>
-		</td>
-	</tr>
-	<tr>
-		<th scope="row"><?php esc_html_e( 'Is cached enrollment accurate?', 'sensei-lms-status' ); ?></th>
+		<th scope="row"><?php esc_html_e( 'Cached Enrollment Status', 'sensei-lms-status' ); ?></th>
 		<td>
 			<?php
 			if ( $results['results_match'] ) {
 				echo '<div class="info info-positive">';
-				echo esc_html__( 'Yes', 'sensei-lms-status' );
+				echo esc_html__( 'Matches Calculated Enrollment', 'sensei-lms-status' );
 				echo '</div>';
 			} else {
 				echo '<div class="info info-negative">';
-				echo esc_html__( 'No', 'sensei-lms-status' );
+				echo esc_html__( 'Does Not Match Calculated Enrollment', 'sensei-lms-status' );
 				echo '</div>';
 			}
 			?>
