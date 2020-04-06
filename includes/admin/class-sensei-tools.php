@@ -221,7 +221,7 @@ class Sensei_Tools {
 	 *
 	 * @return array
 	 */
-	public function add_debug_action( $row_data, $item, $course_id ) {
+	public function add_debug_action( $row_data, $item, $course_id = null ) {
 		/**
 		 * Show the enrolment debug button on learner management.
 		 *
@@ -233,7 +233,8 @@ class Sensei_Tools {
 		 */
 		$show_button = apply_filters( 'sensei_lms_status_show_enrolment_debug_button', false, $item->user_id, $course_id );
 		if (
-			! $show_button
+			! $course_id
+			|| ! $show_button
 			|| 'course' !== get_post_type( $course_id )
 		) {
 			return $row_data;
