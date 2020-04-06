@@ -238,6 +238,7 @@ class Sensei_Tools {
 		$show_button = apply_filters( 'sensei_lms_status_show_enrolment_debug_button', false, $item->user_id, $course_id );
 		if (
 			! $course_id
+			|| ! current_user_can( 'manage_sensei' )
 			|| ! $show_button
 			|| 'course' !== get_post_type( $course_id )
 		) {
