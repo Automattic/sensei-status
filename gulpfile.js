@@ -40,6 +40,7 @@ var paths = {
 	css: [ 'assets/css/**/*.scss' ],
 	packageContents: [
 		'assets/**/*',
+		'!assets/**/*.scss',
 		'changelog.txt',
 		'includes/**/*',
 		'lang/**/*',
