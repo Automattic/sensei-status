@@ -19,6 +19,12 @@ define( 'SENSEI_STATUS_PLUGIN_FILE', __FILE__ );
 define( 'SENSEI_STATUS_PLUGIN_DIR', __DIR__ );
 define( 'SENSEI_STATUS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 
+require_once __DIR__ . '/includes/class-sensei-lms-status-dependency-checker.php';
+
+if ( ! Sensei_LMS_Status_Dependency_Checker::are_system_dependencies_met() ) {
+	return;
+}
+
 require_once __DIR__ . '/includes/class-sensei-lms-status-plugin.php';
 
 Sensei_LMS_Status_Plugin::instance()->init();

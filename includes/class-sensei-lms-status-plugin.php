@@ -47,7 +47,6 @@ class Sensei_LMS_Status_Plugin {
 	 */
 	public function init() {
 		add_action( 'init', [ $this, 'load_plugin' ] );
-		add_action( 'admin_enqueue_scripts', [ $this, 'register_assets' ] );
 	}
 
 	/**
@@ -56,10 +55,16 @@ class Sensei_LMS_Status_Plugin {
 	 * @access private
 	 */
 	public function load_plugin() {
+		if ( ! Sensei_LMS_Status_Dependency_Checker::are_plugin_dependencies_met() ) {
+			return;
+		}
+
 		$this->include_files();
 
 		Sensei_Status::instance()->init();
 		Sensei_Tools::instance()->init();
+
+		add_action( 'admin_enqueue_scripts', [ $this, 'register_assets' ] );
 	}
 
 	/**
