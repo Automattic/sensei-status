@@ -50,7 +50,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<td>
 			<?php
 			$course_value = isset( $_REQUEST['course_id'] ) ? intval( $_REQUEST['course_id'] ) : null;
-			if ( $users) {
+			if ( $courses) {
 				?>
 				<select name="course_id" id="course_id" class="input">
 					<option value="""></option>
