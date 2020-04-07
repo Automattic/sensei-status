@@ -45,6 +45,8 @@ class Sensei_LMS_Status_Dependency_Checker {
 	public static function are_plugin_dependencies_met() {
 		$are_met = true;
 		if ( ! self::check_sensei() ) {
+			$are_met = false;
+
 			add_action( 'admin_notices', array( __CLASS__, 'add_sensei_notice' ) );
 		}
 
