@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<ruleset name="TLF">
+<ruleset name="Sensei Status">
 	<description>A custom set of code standard rules to check for WordPress themes and plugins.</description>
 
 	<arg value="s"/>

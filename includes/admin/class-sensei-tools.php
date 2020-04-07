@@ -93,9 +93,9 @@ class Sensei_Tools {
 				}
 
 				$tool->run();
-				wp_safe_redirect( admin_url( 'admin.php?page=sensei-tools' ) );
 
-				exit;
+				wp_safe_redirect( admin_url( 'admin.php?page=sensei-tools' ) );
+				wp_die();
 			}
 
 			ob_start();
