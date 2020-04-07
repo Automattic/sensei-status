@@ -114,7 +114,7 @@ class Sensei_Tool_Enrolment_Debug implements Sensei_Tool_Interface {
 	private function process_input() {
 		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Don't modify the nonce.
 		if ( empty( $_GET['_wpnonce'] ) || ! wp_verify_nonce( wp_unslash( $_GET['_wpnonce'] ), self::NONCE_ACTION ) ) {
-			Sensei_Tools::instance()->add_user_message( __( 'Please try again. There was a problem validating your request.', 'sensei-lms-status' ), true );
+			Sensei_Tools::instance()->trigger_invalid_request( $this );
 
 			return false;
 		}

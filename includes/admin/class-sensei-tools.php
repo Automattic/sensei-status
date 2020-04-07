@@ -81,7 +81,7 @@ class Sensei_Tools {
 		if ( ! empty( $_GET['tool'] ) ) {
 			$tool_id = sanitize_text_field( wp_unslash( $_GET['tool'] ) );
 			if ( ! isset( $tools[ $tool_id ] ) ) {
-				wp_die( esc_html__( 'Invalid tool', 'sensei-lms-status' ) );
+				return $this->trigger_invalid_request();
 			}
 
 			$tool = $tools[ $tool_id ];
@@ -89,7 +89,7 @@ class Sensei_Tools {
 			if ( $tool->is_single_action() ) {
 				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Don't modify the nonce.
 				if ( empty( $_GET['_wpnonce'] ) || ! wp_verify_nonce( wp_unslash( $_GET['_wpnonce'] ), 'sensei-tool-' . $tool_id ) ) {
-					wp_die( esc_html__( 'Invalid nonce', 'sensei-lms-status' ) );
+					return $this->trigger_invalid_request();
 				}
 
 				$tool->run();
@@ -214,6 +214,25 @@ class Sensei_Tools {
 		}
 
 		return $this->tools;
+	}
+
+	/**
+	 * Trigger invalid request and redirect.
+	 *
+	 * @param Sensei_Tool_Interface $tool Tool object to possibly redirect to.
+	 */
+	public function trigger_invalid_request( $tool = null ) {
+		$redirect = admin_url( 'admin.php?page=sensei-tools' );
+
+		if ( $tool ) {
+			$redirect = $this->get_tool_url( $tool );
+		}
+
+		$this->add_user_message( __( 'There was a problem validating your request. Please try again.', 'sensei-lms-status' ), true );
+
+		wp_safe_redirect( $redirect );
+
+		wp_die();
 	}
 
 	/**
