@@ -71,6 +71,11 @@ $allowed_debug_html = [
 				echo esc_html__( 'Does Not Match Calculated Enrollment', 'sensei-lms-status' );
 				echo '</div>';
 			}
+
+			echo '<div class="info info-neutral">';
+			// translators: %s placeholder is datetime results were last calculated
+			echo esc_html( sprintf( __( 'Last calculated on %s', 'sensei-lms-status' ), $results['results_time'] ) );
+			echo '</div>';
 			?>
 		</td>
 	</tr>

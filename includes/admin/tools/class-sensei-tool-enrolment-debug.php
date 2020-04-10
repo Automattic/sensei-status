@@ -171,7 +171,13 @@ class Sensei_Tool_Enrolment_Debug implements Sensei_Tool_Interface {
 			$provider_results = $course_enrolment->get_enrolment_check_results( $user->ID );
 		}
 
-		$provider_results = $provider_results->get_provider_results();
+		$date_time_format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
+		$results_time     = \date_i18n( $date_time_format, $provider_results->get_time() );
+		if ( function_exists( 'wp_date' ) ) {
+			$results_time = wp_date( $date_time_format, $provider_results->get_time() );
+		}
+
+		$provider_results_arr = $provider_results->get_provider_results();
 
 		$debug_results = [
 			'course'        => $course->post_title,
@@ -179,6 +185,7 @@ class Sensei_Tool_Enrolment_Debug implements Sensei_Tool_Interface {
 			'is_enrolled'   => $is_enrolled,
 			'results_stale' => $results_stale,
 			'results_match' => true,
+			'results_time'  => $results_time,
 			'providers'     => [],
 		];
 
@@ -195,13 +202,13 @@ class Sensei_Tool_Enrolment_Debug implements Sensei_Tool_Interface {
 			if ( $provider_info['handles_course'] ) {
 				$provider_info['is_enrolled'] = $provider->is_enrolled( $user->ID, $course->ID );
 				if (
-					! isset( $provider_results[ $provider->get_id() ] )
-					|| $provider_results[ $provider->get_id() ] !== $provider_info['is_enrolled']
+					! isset( $provider_results_arr[ $provider->get_id() ] )
+					|| $provider_results_arr[ $provider->get_id() ] !== $provider_info['is_enrolled']
 				) {
 					$debug_results['results_match'] = false;
 				}
 			} else {
-				if ( isset( $provider_results[ $provider->get_id() ] ) ) {
+				if ( isset( $provider_results_arr[ $provider->get_id() ] ) ) {
 					$debug_results['results_match'] = false;
 				}
 			}
