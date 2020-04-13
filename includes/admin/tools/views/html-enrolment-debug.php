@@ -118,11 +118,71 @@ $allowed_debug_html = [
 						?>
 					</div>
 					<?php
+					$columns = [];
 					if ( ! empty( $provider['debug'] ) ) {
-						echo '<div class="debug">';
+						$column = [];
+						$column[] = '<h4>' . __( 'Information', 'sensei-status' ) . '</h4>';
+						$column[] = '<div class="debug">';
 						foreach ( $provider['debug'] as $message ) {
-							echo '<div class="message">';
-							echo wp_kses( $message, $allowed_debug_html );
+							$column[] = '<div class="message">';
+							$column[] = wp_kses( $message, $allowed_debug_html );
+							$column[] = '</div>';
+						}
+						$column[] = '</div>';
+
+						$columns['info'] = $column;
+					}
+
+					if ( ! empty( $provider['logs'] ) ) {
+						$column = [];
+						$column[] = '<div class="logs">';
+						$column[] = '<h4>' . __( 'Logs', 'sensei-status' ) . '</h4>';
+						foreach ( $provider['logs'] as $message ) {
+							$column[] = '<div class="message">';
+							$column[] = '<span class="time">' . Sensei_Tool_Enrolment_Debug::format_date( $message['timestamp'] ) . '</span>';
+							$column[] = '<span class="content">' . esc_html( $message['message'] ) . '</span>';
+							$column[] = '</div>';
+						}
+						$column[] = '</div>';
+
+						$columns['logs'] = $column;
+					}
+
+					if ( ! empty( $provider['history'] ) ) {
+						$column = [];
+						$column[] = '<div class="history">';
+						$column[] = '<h4>' . __( 'History', 'sensei-status' ) . '</h4>';
+						foreach ( $provider['history'] as $history ) {
+							$item_class = 'neutral';
+							if ( null === $history['enrolment_status'] ) {
+								$description = __( 'Stopped handling', 'sensei-status' );
+							} elseif ( $history['enrolment_status'] ) {
+								$description = __( 'Provided', 'sensei-status' );
+								$item_class = 'positive';
+							} else {
+								$description = __( 'Withdrawn', 'sensei-status' );
+								$item_class = 'negative';
+							}
+
+							$column[] = '<div class="history-item ' . esc_attr( $item_class ) . '">';
+							$column[] = '<span class="time">' . Sensei_Tool_Enrolment_Debug::format_date( $history['timestamp'] ). '</span>';
+
+							$column[] = '<span class="content">';
+							$column[] = esc_html( $description );
+							$column[] = '</span>';
+							$column[] = '</div>';
+						}
+						$column[] = '</div>';
+
+						$columns['history'] = $column;
+					}
+
+
+					if ( ! empty( $columns ) ) {
+						echo '<div class="provider-details">';
+						foreach( $columns as $id => $column ) {
+							echo '<div class="column column-' . esc_attr( $id ). '">';
+							echo implode( $column );
 							echo '</div>';
 						}
 						echo '</div>';

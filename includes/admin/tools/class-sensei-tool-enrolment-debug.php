@@ -171,21 +171,14 @@ class Sensei_Tool_Enrolment_Debug implements Sensei_Tool_Interface {
 			$provider_results = $course_enrolment->get_enrolment_check_results( $user->ID );
 		}
 
-		$date_time_format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
-		$results_time     = \date_i18n( $date_time_format, $provider_results->get_time() );
-		if ( function_exists( 'wp_date' ) ) {
-			$results_time = wp_date( $date_time_format, $provider_results->get_time() );
-		}
-
 		$provider_results_arr = $provider_results->get_provider_results();
-
-		$debug_results = [
+		$debug_results        = [
 			'course'        => $course->post_title,
 			'user'          => $user->display_name . ' (' . $user->ID . ')',
 			'is_enrolled'   => $is_enrolled,
 			'results_stale' => $results_stale,
 			'results_match' => true,
-			'results_time'  => $results_time,
+			'results_time'  => self::format_date( $provider_results->get_time() ),
 			'providers'     => [],
 		];
 
@@ -197,6 +190,8 @@ class Sensei_Tool_Enrolment_Debug implements Sensei_Tool_Interface {
 				'handles_course' => $provider->handles_enrolment( $course->ID ),
 				'is_enrolled'    => null,
 				'debug'          => false,
+				'logs'           => false,
+				'history'        => false,
 			];
 
 			if ( $provider_info['handles_course'] ) {
@@ -218,6 +213,11 @@ class Sensei_Tool_Enrolment_Debug implements Sensei_Tool_Interface {
 				&& $provider instanceof Sensei_Course_Enrolment_Provider_Debug_Interface
 			) {
 				$provider_info['debug'] = $provider->debug( $user->ID, $course->ID );
+			}
+
+			if ( class_exists( 'Sensei_Enrolment_Provider_Journal_Store' ) ) {
+				$provider_info['logs']    = Sensei_Enrolment_Provider_Journal_Store::get_provider_logs( $provider, $user->ID, $course->ID );
+				$provider_info['history'] = Sensei_Enrolment_Provider_Journal_Store::get_provider_history( $provider, $user->ID, $course->ID );
 			}
 
 			$debug_results['providers'][ $provider_info['id'] ] = $provider_info;
@@ -245,5 +245,24 @@ class Sensei_Tool_Enrolment_Debug implements Sensei_Tool_Interface {
 			),
 			self::NONCE_ACTION
 		);
+	}
+
+	/**
+	 * Format the date time to be human readable.
+	 *
+	 * @param int|float $time Format the time.
+	 *
+	 * @return string
+	 */
+	public static function format_date( $time ) {
+		$time             = round( $time );
+		$date_time_format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
+		$formatted_time   = date_i18n( $date_time_format, $time );
+
+		if ( function_exists( 'wp_date' ) ) {
+			$formatted_time = wp_date( $date_time_format, $time );
+		}
+
+		return $formatted_time;
 	}
 }
