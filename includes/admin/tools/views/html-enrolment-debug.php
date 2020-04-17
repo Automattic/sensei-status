@@ -30,7 +30,20 @@ $allowed_debug_html = [
 		<th scope="row"><?php esc_html_e( 'User', 'sensei-lms-status' ); ?></th>
 		<td>
 			<div class="info">
-			<?php echo esc_html( $results['user'] ); ?>
+			<?php
+			echo esc_html( $results['user'] );
+			?>
+			</div>
+			<div class="info-buttons">
+			<?php
+			$edit_url = admin_url( 'user-edit.php?user_id=' . intval( $results['user_id'] ) );
+			echo '<a href="' . esc_url( $edit_url ). '" class="button">' . __( 'Edit User', 'sensei-lms-status' ) . '</a>';
+
+			if ( class_exists( 'WooCommerce' ) ) {
+				$orders_url = admin_url( sprintf( 'edit.php?post_type=shop_order&_customer_user=%d', $results['user_id'] ) );
+				echo ' <a href="' . esc_url( $orders_url ). '" class="button">' . __( 'Orders', 'sensei-lms-status' ) . '</a>';
+			}
+			?>
 			</div>
 		</td>
 	</tr>
@@ -39,6 +52,18 @@ $allowed_debug_html = [
 		<td>
 			<div class="info">
 			<?php echo esc_html( $results['course'] ); ?>
+			</div>
+			<div class="info-buttons">
+				<?php
+				$view_course_url = get_permalink( $results['course_id'] );
+				echo '<a href="' . esc_url( $view_course_url ) . '" class="button">' . __( 'View Course', 'sensei-lms-status' ) . '</a>';
+
+				$edit_course_url = admin_url( sprintf( 'post.php?post=%d&action=edit', $results['course_id'] ) );
+				echo ' <a href="' . esc_url( $edit_course_url ) . '" class="button">' . __( 'Edit Course', 'sensei-lms-status' ) . '</a>';
+
+				$manage_learners_url = admin_url( sprintf( 'admin.php?page=sensei_learners&course_id=%d&view=learners', $results['course_id'] ) );
+				echo ' <a href="' . esc_url( $manage_learners_url ) . '" class="button">' . __( 'Manage Learners', 'sensei-lms-status' ) . '</a>';
+				?>
 			</div>
 		</td>
 	</tr>
