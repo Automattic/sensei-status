@@ -59,6 +59,28 @@ $allowed_debug_html = [
 		</td>
 	</tr>
 	<tr>
+		<th scope="row"><?php esc_html_e( 'Course progress status', 'sensei-lms-status' ); ?></th>
+		<td>
+			<?php
+			if ( $results['progress'] ) {
+				echo '<div class="info info-positive">';
+				echo esc_html( $results['progress']['status'] );
+				echo ' (' . $results['progress']['percent_complete'] . '%)';
+				echo '</div>';
+
+				echo '<div class="info info-neutral">';
+				// translators: %s placeholder is datetime progress was started.
+				echo esc_html( sprintf( __( 'Started on %s', 'sensei-lms-status' ), $results['progress']['start_date'] ) );
+				echo '</div>';
+			} else {
+				echo '<div class="info info-negative">';
+				echo esc_html__( 'No Progress', 'sensei-lms-status' );
+				echo '</div>';
+			}
+			?>
+		</td>
+	</tr>
+	<tr>
 		<th scope="row"><?php esc_html_e( 'Cached enrollment status', 'sensei-lms-status' ); ?></th>
 		<td>
 			<?php

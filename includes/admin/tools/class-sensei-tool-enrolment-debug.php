@@ -192,7 +192,28 @@ class Sensei_Tool_Enrolment_Debug implements Sensei_Tool_Interface {
 			'results_match' => true,
 			'results_time'  => self::format_date( $provider_results->get_time() ),
 			'providers'     => [],
+			'progress'      => false,
 		];
+
+		$course_progress_id = Sensei_Utils::has_started_course( $course->ID, $user->ID );
+		if ( $course_progress_id ) {
+			$course_progress = get_comment( $course_progress_id );
+			$user_start_date = get_comment_meta( $course_progress_id, 'start', true );
+			$status          = esc_html__( 'In Progress', 'sensei-lms-status' );
+
+			if ( 'complete' === $course_progress->comment_approved ) {
+				$status           = esc_html__( 'Completed', 'sensei-lms-status' );
+				$percent_complete = 100;
+			} else {
+				$percent_complete = $this->get_percent_complete( $user->ID, $course->ID );
+			}
+
+			$debug_results['progress'] = [
+				'start_date'       => self::format_date( strtotime( $user_start_date ) ),
+				'status'           => $status,
+				'percent_complete' => $percent_complete,
+			];
+		}
 
 		$providers = $enrolment_manager->get_all_enrolment_providers();
 		foreach ( $providers as $provider ) {
@@ -238,6 +259,32 @@ class Sensei_Tool_Enrolment_Debug implements Sensei_Tool_Interface {
 		return $debug_results;
 	}
 
+	/**
+	 * Get the percent complete for a user's progress in a course.
+	 *
+	 * @param int $user_id   User ID.
+	 * @param int $course_id Course post ID.
+	 *
+	 * @return false|float
+	 */
+	private function get_percent_complete( $user_id, $course_id ) {
+		$completed_lesson_ids = [];
+
+		$course_lessons = Sensei()->course->course_lessons( $course_id );
+
+		if ( empty( $course_lessons ) ) {
+			return 0;
+		}
+
+		foreach ( $course_lessons as $lesson ) {
+			$is_lesson_completed = Sensei_Utils::user_completed_lesson( $lesson->ID, $user_id );
+			if ( $is_lesson_completed ) {
+				$completed_lesson_ids[] = $lesson->ID;
+			}
+		}
+
+		return round( ( count( $completed_lesson_ids ) / count( $course_lessons ) ) * 100 );
+	}
 	/**
 	 * Get the URL for the enrolment debug tool for a user/course.
 	 *
