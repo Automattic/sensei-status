@@ -72,6 +72,13 @@ $allowed_debug_html = [
 				// translators: %s placeholder is datetime progress was started.
 				echo esc_html( sprintf( __( 'Started on %s', 'sensei-lms-status' ), $results['progress']['start_date'] ) );
 				echo '</div>';
+
+				if ( ! empty( $results['progress']['last_activity'] ) ) {
+					echo '<div class="info info-neutral">';
+					// translators: %s placeholder is datetime progress was started.
+					echo esc_html( sprintf( __( 'Last activity on %s', 'sensei-lms-status' ), $results['progress']['last_activity'] ) );
+					echo '</div>';
+				}
 			} else {
 				echo '<div class="info info-negative">';
 				echo esc_html__( 'No Progress', 'sensei-lms-status' );

@@ -208,8 +208,11 @@ class Sensei_Tool_Enrolment_Debug implements Sensei_Tool_Interface {
 				$percent_complete = $this->get_percent_complete( $user->ID, $course->ID );
 			}
 
+			$last_activity_time = $this->get_last_progress_activity_date( $user->ID, $course->ID, $course_progress_id );
+
 			$debug_results['progress'] = [
 				'start_date'       => self::format_date( strtotime( $user_start_date ) ),
+				'last_activity'    => $last_activity_time ? self::format_date( $last_activity_time ) : false,
 				'status'           => $status,
 				'percent_complete' => $percent_complete,
 			];
@@ -259,6 +262,39 @@ class Sensei_Tool_Enrolment_Debug implements Sensei_Tool_Interface {
 		return $debug_results;
 	}
 
+
+	/**
+	 * Get the unix timestamp of the last progress activity.
+	 *
+	 * @param int $user_id            User ID.
+	 * @param int $course_id          Course post ID.
+	 * @param int $course_progress_id Course progress comment ID.
+	 *
+	 * @return int|false
+	 */
+	private function get_last_progress_activity_date( $user_id, $course_id, $course_progress_id ) {
+		$dates = [];
+
+		$course_progress = get_comment( $course_progress_id );
+		if ( ! $course_progress ) {
+			return false;
+		}
+
+		$dates[] = strtotime( $course_progress->comment_date_gmt );
+
+		$course_lessons = Sensei()->course->course_lessons( $course_id );
+
+		foreach ( $course_lessons as $lesson ) {
+			$lesson_status = Sensei_Utils::user_lesson_status( $lesson->ID, $user_id );
+			if ( $lesson_status ) {
+				$dates[] = strtotime( $lesson_status->comment_date_gmt );
+			}
+		}
+
+		return max( $dates );
+	}
+
+
 	/**
 	 * Get the percent complete for a user's progress in a course.
 	 *
@@ -285,6 +321,7 @@ class Sensei_Tool_Enrolment_Debug implements Sensei_Tool_Interface {
 
 		return round( ( count( $completed_lesson_ids ) / count( $course_lessons ) ) * 100 );
 	}
+
 	/**
 	 * Get the URL for the enrolment debug tool for a user/course.
 	 *
