@@ -141,6 +141,18 @@ class Sensei_Tool_Enrolment_Debug implements Sensei_Tool_Interface {
 			return false;
 		}
 
+		if ( ! empty( $_GET['reset'] ) ) {
+			$course_enrolment = Sensei_Course_Enrolment::get_course_instance( $course_id );
+			$manual_enrolment = Sensei_Course_Enrolment_Manager::instance()->get_manual_enrolment_provider();
+			$manual_state     = $course_enrolment->get_provider_state( $manual_enrolment, $user_id );
+			$manual_state->set_stored_value( Sensei_Course_Enrolment_Stored_Status_Provider::DATA_KEY_ENROLMENT_STATUS, null );
+			$manual_state->set_stored_value( Sensei_Course_Manual_Enrolment_Provider::DATA_KEY_LEGACY_MIGRATION, null );
+			$manual_state->save();
+
+			$course_enrolment->is_enrolled( $user_id, false );
+			Sensei_Tools::instance()->add_user_message( __( 'Manual state was reset.', 'sensei-lms-status' ), true );
+		}
+
 		$course = get_post( $course_id );
 		if ( ! $course || 'course' !== get_post_type( $course ) ) {
 			Sensei_Tools::instance()->add_user_message( __( 'Invalid course ID selected.', 'sensei-lms-status' ), true );
