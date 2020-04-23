@@ -94,7 +94,7 @@ class Sensei_Tools {
 
 				$tool->run();
 
-				wp_safe_redirect( admin_url( 'admin.php?page=sensei-tools' ) );
+				wp_safe_redirect( $this->get_tools_url() );
 				wp_die();
 			}
 
@@ -124,12 +124,21 @@ class Sensei_Tools {
 	 */
 	public function get_tool_url( Sensei_Tool_Interface $tool ) {
 		$id  = $tool->get_id();
-		$url = sprintf( admin_url( 'admin.php?page=sensei-tools&tool=%s' ), $id );
+		$url = add_query_arg( 'tool', $id, $this->get_tools_url() );
 		if ( $tool->is_single_action() ) {
 			$url = wp_nonce_url( $url, 'sensei-tool-' . $id );
 		}
 
 		return $url;
+	}
+
+	/**
+	 * Get the URL for the tools listing page.
+	 *
+	 * @return string
+	 */
+	public function get_tools_url() {
+		return admin_url( 'admin.php?page=sensei-tools' );
 	}
 
 	/**
@@ -196,6 +205,7 @@ class Sensei_Tools {
 		if ( ! $this->tools ) {
 			$tools   = [];
 			$tools[] = new Sensei_Tool_Recalculate_Enrolment();
+			$tools[] = new Sensei_Tool_Recalculate_Course_Enrolment();
 			$tools[] = new Sensei_Tool_Enrolment_Debug();
 
 			/**
@@ -222,7 +232,7 @@ class Sensei_Tools {
 	 * @param Sensei_Tool_Interface $tool Tool object to possibly redirect to.
 	 */
 	public function trigger_invalid_request( $tool = null ) {
-		$redirect = admin_url( 'admin.php?page=sensei-tools' );
+		$redirect = $this->get_tools_url();
 
 		if ( $tool ) {
 			$redirect = $this->get_tool_url( $tool );

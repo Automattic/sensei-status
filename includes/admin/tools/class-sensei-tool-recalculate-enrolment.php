@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing Sensei_Tool_Interface interface.
+ * File containing Sensei_Tool_Recalculate_Enrolment class.
  *
  * @package sensei-lms-status
  * @since 1.0.0

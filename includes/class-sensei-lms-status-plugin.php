@@ -77,6 +77,7 @@ class Sensei_LMS_Status_Plugin {
 		include_once __DIR__ . '/admin/class-sensei-tools.php';
 		include_once __DIR__ . '/admin/tools/class-sensei-tool-interface.php';
 		include_once __DIR__ . '/admin/tools/class-sensei-tool-recalculate-enrolment.php';
+		include_once __DIR__ . '/admin/tools/class-sensei-tool-recalculate-course-enrolment.php';
 		include_once __DIR__ . '/admin/tools/class-sensei-tool-enrolment-debug.php';
 	}
 
