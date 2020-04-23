@@ -64,6 +64,7 @@ class Sensei_Tool_Recalculate_Course_Enrolment implements Sensei_Tool_Interface 
 
 			if ( $results ) {
 				wp_safe_redirect( Sensei_Tools::instance()->get_tools_url() );
+				wp_die();
 			}
 		}
 

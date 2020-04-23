@@ -65,8 +65,7 @@ class Sensei_Tool_Enrolment_Debug implements Sensei_Tool_Interface {
 			// If there was an error, go back to the tool page.
 			if ( ! $results ) {
 				wp_safe_redirect( Sensei_Tools::instance()->get_tool_url( $this ) );
-
-				exit;
+				wp_die();
 			}
 
 			include_once __DIR__ . '/views/html-enrolment-debug.php';

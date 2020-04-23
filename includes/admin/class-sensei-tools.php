@@ -241,7 +241,6 @@ class Sensei_Tools {
 		$this->add_user_message( __( 'There was a problem validating your request. Please try again.', 'sensei-lms-status' ), true );
 
 		wp_safe_redirect( $redirect );
-
 		wp_die();
 	}
 
