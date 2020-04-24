@@ -66,7 +66,7 @@ class Sensei_LMS_Status_Dependency_Checker {
 	 * Deactivate self.
 	 */
 	public static function deactivate_self() {
-		deactivate_plugins( SENSEI_STATUS_PLUGIN_BASENAME );
+		deactivate_plugins( SENSEI_LMS_STATUS_PLUGIN_BASENAME );
 	}
 
 	/**

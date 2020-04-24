@@ -1,0 +1,210 @@
+# Copyright (C) 2020 sensei-lms-status
+# This file is distributed under the same license as the sensei-lms-status package.
+msgid ""
+msgstr ""
+"Project-Id-Version: sensei-lms-status\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Report-Msgid-Bugs-To: https://translate.wordpress.org/projects/wp-plugins/sensei-lms-status/\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. translators: %1$s is version of PHP that this plugin requires; %2$s is the version of PHP WordPress is running on.
+#: includes/class-sensei-lms-status-dependency-checker.php:104
+msgid "<strong>Sensei LMS - Status and Tools</strong> requires a minimum PHP version of %1$s, but you are running %2$s."
+msgstr ""
+
+#: includes/class-sensei-lms-status-dependency-checker.php:114
+msgid "Learn more about updating PHP"
+msgstr ""
+
+#. translators: accessibility text
+#: includes/class-sensei-lms-status-dependency-checker.php:116
+msgid "(opens in a new tab)"
+msgstr ""
+
+#. translators: %1$s is the minimum version number of Sensei that is required.
+#: includes/class-sensei-lms-status-dependency-checker.php:135
+msgid "<strong>Sensei LMS - Status and Tools</strong> requires that the plugin <strong>Sensei LMS</strong> (minimum version: <strong>%1$s</strong>) is installed and activated."
+msgstr ""
+
+#: includes/admin/class-sensei-status.php:63, includes/admin/class-sensei-status.php:121
+msgid "Sensei LMS"
+msgstr ""
+
+#: includes/admin/class-sensei-status.php:68
+msgid "Installed Version"
+msgstr ""
+
+#: includes/admin/class-sensei-status.php:73
+msgid "No, instance never used Sensei LMS v2 or below."
+msgstr ""
+
+#. translators: Placeholder is datetime for when the instance was upgraded.
+#: includes/admin/class-sensei-status.php:77
+msgid "Yes, instance was upgraded from a pre-v3 version at %s UTC"
+msgstr ""
+
+#: includes/admin/class-sensei-status.php:81
+msgid "Migrate Legacy Enrollment"
+msgstr ""
+
+#: includes/admin/class-sensei-status.php:104
+msgid "Calculated enrollments"
+msgstr ""
+
+#: includes/admin/class-sensei-status.php:118
+msgid "Learner enrollment has been calculated"
+msgstr ""
+
+#: includes/admin/class-sensei-status.php:126
+msgid "Sensei LMS attempts to calculate whether learners are enrolled in all courses ahead of time to speed up loading. If this has not been calculated, it could be in-process. Check back later to ensure this has been fixed."
+msgstr ""
+
+#: includes/admin/class-sensei-status.php:135
+msgid "Learner enrollment has not been calculated"
+msgstr ""
+
+#: includes/admin/class-sensei-tools.php:69
+msgid "Tools"
+msgstr ""
+
+#: includes/admin/class-sensei-tools.php:241
+msgid "There was a problem validating your request. Please try again."
+msgstr ""
+
+#: includes/admin/tools/class-sensei-tool-enrolment-debug.php:36
+msgid "Debug Course Enrollment"
+msgstr ""
+
+#: includes/admin/tools/class-sensei-tool-enrolment-debug.php:45
+msgid "Check what the enrollment status is between a course and learner."
+msgstr ""
+
+#: includes/admin/tools/class-sensei-tool-enrolment-debug.php:122
+msgid "Please select a user."
+msgstr ""
+
+#: includes/admin/tools/class-sensei-tool-enrolment-debug.php:128, includes/admin/tools/class-sensei-tool-recalculate-course-enrolment.php:106
+msgid "Please select a course ID."
+msgstr ""
+
+#: includes/admin/tools/class-sensei-tool-enrolment-debug.php:138
+msgid "Invalid user ID selected."
+msgstr ""
+
+#: includes/admin/tools/class-sensei-tool-enrolment-debug.php:145, includes/admin/tools/class-sensei-tool-recalculate-course-enrolment.php:115
+msgid "Invalid course ID selected."
+msgstr ""
+
+#: includes/admin/tools/class-sensei-tool-enrolment-debug.php:191, includes/admin/tools/class-sensei-tool-recalculate-course-enrolment.php:166
+msgid "In Progress"
+msgstr ""
+
+#: includes/admin/tools/class-sensei-tool-enrolment-debug.php:194, includes/admin/tools/class-sensei-tool-recalculate-course-enrolment.php:169
+msgid "Completed"
+msgstr ""
+
+#: includes/admin/tools/class-sensei-tool-recalculate-course-enrolment.php:36
+msgid "Recalculate Course Enrollment"
+msgstr ""
+
+#: includes/admin/tools/class-sensei-tool-recalculate-course-enrolment.php:45
+msgid "Invalidate the cached enrollment and trigger recalculation for all users in a specific course."
+msgstr ""
+
+#: includes/admin/tools/class-sensei-tool-recalculate-course-enrolment.php:123
+msgid "Course enrollment job has been triggered."
+msgstr ""
+
+#: includes/admin/tools/class-sensei-tool-recalculate-enrolment.php:34
+msgid "Recalculate Enrolments"
+msgstr ""
+
+#: includes/admin/tools/class-sensei-tool-recalculate-enrolment.php:43
+msgid "Invalidate the cached enrollment and trigger recalculation for all users and courses."
+msgstr ""
+
+#: includes/admin/tools/class-sensei-tool-recalculate-enrolment.php:62
+msgid "Course enrollment cache has been invalidated and is being recalculated."
+msgstr ""
+
+#: includes/admin/views/html-admin-page-tools-header.php:25
+msgid "All Tools"
+msgstr ""
+
+#: includes/admin/views/html-admin-page-tools.php:32
+msgid "Visit Tool"
+msgstr ""
+
+#: includes/admin/views/html-admin-page-tools.php:35
+msgid "Run Action"
+msgstr ""
+
+#: includes/admin/tools/views/html-enrolment-debug-form.php:24, includes/admin/tools/views/html-enrolment-debug.php:30
+msgid "User"
+msgstr ""
+
+#: includes/admin/tools/views/html-enrolment-debug-form.php:24, includes/admin/tools/views/html-enrolment-debug-form.php:52, includes/admin/tools/views/html-recalculate-course-enrolment-form.php:23
+msgid "Required"
+msgstr ""
+
+#: includes/admin/tools/views/html-enrolment-debug-form.php:52, includes/admin/tools/views/html-enrolment-debug.php:51, includes/admin/tools/views/html-recalculate-course-enrolment-form.php:23
+msgid "Course"
+msgstr ""
+
+#: includes/admin/tools/views/html-enrolment-debug-form.php:81
+msgid "View Enrollment Information"
+msgstr ""
+
+#: includes/admin/tools/views/html-enrolment-debug.php:71
+msgid "Enrollment status"
+msgstr ""
+
+#: includes/admin/tools/views/html-enrolment-debug.php:76
+msgid "Enrolled"
+msgstr ""
+
+#: includes/admin/tools/views/html-enrolment-debug.php:87
+msgid "Course progress status"
+msgstr ""
+
+#. translators: %s placeholder is datetime progress was started.
+#: includes/admin/tools/views/html-enrolment-debug.php:98
+msgid "Started on %s"
+msgstr ""
+
+#. translators: %s placeholder is datetime progress was started.
+#: includes/admin/tools/views/html-enrolment-debug.php:104
+msgid "Last activity on %s"
+msgstr ""
+
+#: includes/admin/tools/views/html-enrolment-debug.php:116
+msgid "Cached enrollment status"
+msgstr ""
+
+#: includes/admin/tools/views/html-enrolment-debug.php:121
+msgid "Matches Calculated Enrollment"
+msgstr ""
+
+#. translators: %s placeholder is datetime results were last calculated
+#: includes/admin/tools/views/html-enrolment-debug.php:131
+msgid "Last calculated on %s"
+msgstr ""
+
+#: includes/admin/tools/views/html-enrolment-debug.php:137
+msgid "Providers"
+msgstr ""
+
+#: includes/admin/tools/views/html-enrolment-debug.php:161
+msgid "Does Not Handle Course"
+msgstr ""
+
+#: includes/admin/tools/views/html-recalculate-course-enrolment-form.php:52
+msgid "Trigger Course Enrollment Recalculation"
+msgstr ""

@@ -85,8 +85,8 @@ class Sensei_LMS_Status_Plugin {
 	 * Register assets for use within plugin.
 	 */
 	public function register_assets() {
-		$plugin_url = trailingslashit( plugins_url( '', SENSEI_STATUS_PLUGIN_FILE ) );
+		$plugin_url = trailingslashit( plugins_url( '', SENSEI_LMS_STATUS_PLUGIN_FILE ) );
 
-		wp_register_style( 'sensei-lms-tools', $plugin_url . 'assets/css/admin/tools.css', '', SENSEI_STATUS_VERSION, 'screen' );
+		wp_register_style( 'sensei-lms-tools', $plugin_url . 'assets/css/admin/tools.css', '', SENSEI_LMS_STATUS_VERSION, 'screen' );
 	}
 }

@@ -42,9 +42,11 @@ var paths = {
 		'assets/**/*',
 		'!assets/**/*.scss',
 		'changelog.txt',
+		'readme.txt',
 		'includes/**/*',
 		'lang/**/*',
 		'sensei-lms-status.php',
+		'.wordpress-org/*'
 	],
 	packageDir: 'build/sensei-lms-status',
 	packageZip: 'build/sensei-lms-status.zip'
