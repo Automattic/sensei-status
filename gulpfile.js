@@ -45,8 +45,7 @@ var paths = {
 		'readme.txt',
 		'includes/**/*',
 		'lang/**/*',
-		'sensei-lms-status.php',
-		'.wordpress-org/*'
+		'sensei-lms-status.php'
 	],
 	packageDir: 'build/sensei-lms-status',
 	packageZip: 'build/sensei-lms-status.zip'
