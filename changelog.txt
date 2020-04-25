@@ -4,5 +4,4 @@
 - Change: Prevent plugin from loading when it detects its classes have already been loaded.
 
 2020.04.24 - version 1.0.0
-
 - Initial version.
