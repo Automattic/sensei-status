@@ -50,6 +50,11 @@ class Sensei_LMS_Status_Dependency_Checker {
 			add_action( 'admin_notices', array( __CLASS__, 'add_sensei_notice' ) );
 		}
 
+		if ( class_exists( 'Sensei_Status' ) || class_exists( 'Sensei_Tools' ) ) {
+			add_action( 'admin_notices', array( __CLASS__, 'add_double_active_notice' ) );
+			$are_met = false;
+		}
+
 		return $are_met;
 	}
 
@@ -101,7 +106,7 @@ class Sensei_LMS_Status_Dependency_Checker {
 		}
 
 		// translators: %1$s is version of PHP that this plugin requires; %2$s is the version of PHP WordPress is running on.
-		$message = sprintf( __( '<strong>Sensei LMS - Status and Tools</strong> requires a minimum PHP version of %1$s, but you are running %2$s.', 'sensei-lms-status' ), self::MINIMUM_PHP_VERSION, phpversion() );
+		$message = sprintf( __( '<strong>Sensei LMS Status and Tools</strong> requires a minimum PHP version of %1$s, but you are running %2$s.', 'sensei-lms-status' ), self::MINIMUM_PHP_VERSION, phpversion() );
 		echo '<div class="error"><p>';
 		echo wp_kses( $message, array( 'strong' => array() ) );
 		$php_update_url = 'https://wordpress.org/support/update-php/';
@@ -132,7 +137,26 @@ class Sensei_LMS_Status_Dependency_Checker {
 		}
 
 		// translators: %1$s is the minimum version number of Sensei that is required.
-		$message = sprintf( __( '<strong>Sensei LMS - Status and Tools</strong> requires that the plugin <strong>Sensei LMS</strong> (minimum version: <strong>%1$s</strong>) is installed and activated.', 'sensei-lms-status' ), self::MINIMUM_SENSEI_VERSION );
+		$message = sprintf( __( '<strong>Sensei LMS Status and Tools</strong> requires that the plugin <strong>Sensei LMS</strong> (minimum version: <strong>%1$s</strong>) is installed and activated.', 'sensei-lms-status' ), self::MINIMUM_SENSEI_VERSION );
+		echo '<div class="error"><p>';
+		echo wp_kses( $message, array( 'strong' => array() ) );
+		echo '</p></div>';
+	}
+
+	/**
+	 * Adds the notice in WP Admin when it detects this plugin's classes elsewhere.
+	 *
+	 * @access private
+	 */
+	public static function add_double_active_notice() {
+		$screen        = get_current_screen();
+		$valid_screens = array( 'dashboard', 'plugins', 'plugins-network' );
+
+		if ( ! current_user_can( 'activate_plugins' ) || ! in_array( $screen->id, $valid_screens, true ) ) {
+			return;
+		}
+
+		$message = __( '<strong>Sensei LMS Status and Tools</strong> is no longer required as its functionality has been implemented in Sensei LMS. Please deactivate and uninstall the plugin.', 'sensei-lms-status' );
 		echo '<div class="error"><p>';
 		echo wp_kses( $message, array( 'strong' => array() ) );
 		echo '</p></div>';
